@@ -11,7 +11,7 @@ class Client(models.Model):
     first_name = models.CharField(max_length=150, verbose_name='имя')
     surname = models.CharField(max_length=150, verbose_name='отчество')
     comment = models.TextField(verbose_name='коментарий', **NULLABLE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User,related_name="clients", on_delete=models.CASCADE)
 
     # def __str__(self) -> str:
     #     return f'{self.last_name} {self.first_name} {self.surname}, email: {self.email}'
@@ -43,7 +43,9 @@ class MailSettings(models.Model):
     mailing_is_active = models.BooleanField(default=True, verbose_name='Рассылка активна')
     clients = models.ManyToManyField(Client, verbose_name='клиенты')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
+    @property
+    def get_clients_by_user(self):
+        return Client.objects.filter(user=self.user)
     
 
     # def __str__(self) -> str:

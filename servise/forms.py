@@ -40,7 +40,8 @@ class MailSettingsForm(forms.ModelForm):
 
     class Meta:
         model = MailSettings
-        fields = ('title', 'body','time', 'mailing_periodicity', 'mailing_status', 'clients')
+        fields = ('title', 'body','time', 'mailing_periodicity', 'mailing_status', 'clients', 'get_clients_by_user')
+        exclude=("clients",)
         widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -57,7 +58,18 @@ class MailSettingsForm(forms.ModelForm):
                 'class': 'form-control',
             }),
 
-            'mailing_periodicity': forms.Select(attrs={
+            'get_clients_by_user': forms.Select(attrs={
                 'class': 'form-control',
             }),
+
         }
+    # choices = []
+    # get_clients_by_user = forms.ChoiceField(choices=choices)
+
+    # def __init__(self, *args, **kwargs):
+    #     # only change attributes if an instance is passed            
+    #     instance = kwargs.get('instance')
+    #     if instance:
+    #         self.choices = instance.get_clients_by_user()
+    #         kwargs["initial"] = {'get_clients_by_user': instance.get_clients_by_user()}
+    #     super().__init__(*args, **kwargs)

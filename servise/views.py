@@ -55,7 +55,14 @@ class MailSettingsCreateView(CreateView):
     form_class = MailSettingsForm
     success_url = reverse_lazy("servise:Mails")
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['clients'] = Client.objects.filter(user=self.request.user)
+        print(context)
+        return context
+
     def form_valid(self, form):
+        form.instance.client.set(Client.objects.filter(user=self.request.user))
         client = form.save(commit=False)
         client.user = self.request.user
         client.save()

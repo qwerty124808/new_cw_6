@@ -40,8 +40,8 @@ class MailSettingsForm(forms.ModelForm):
 
     class Meta:
         model = MailSettings
-        fields = ('title', 'body','time', 'mailing_periodicity', 'mailing_status', 'clients', 'get_clients_by_user')
-        exclude=("clients",)
+        fields = ('title', 'body','time', 'mailing_periodicity', 'mailing_status', 'clients')
+        
         widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -57,11 +57,6 @@ class MailSettingsForm(forms.ModelForm):
                 'type': 'time',
                 'class': 'form-control',
             }),
-
-            'get_clients_by_user': forms.Select(attrs={
-                'class': 'form-control',
-            }),
-
         }
     # choices = []
     # get_clients_by_user = forms.ChoiceField(choices=choices)

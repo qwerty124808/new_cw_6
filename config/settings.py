@@ -157,6 +157,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/users/"
+LOGIN_URL = "/users/"
 
 CACHE_ENABLED = False
 if CACHE_ENABLED:
@@ -169,7 +170,7 @@ if CACHE_ENABLED:
     }
 
 CRONJOBS = [
-    ('*/15 * * * *', 'servise.jobs.test_job')
+    ('*/1 * * * *', 'servise.jobs.test_job')
     
     ]
 

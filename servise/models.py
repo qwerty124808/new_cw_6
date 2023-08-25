@@ -13,8 +13,8 @@ class Client(models.Model):
     comment = models.TextField(verbose_name='коментарий', **NULLABLE)
     user = models.ForeignKey(User,related_name="clients", on_delete=models.CASCADE)
 
-    # def __str__(self) -> str:
-    #     return f'{self.last_name} {self.first_name} {self.surname}, email: {self.email}'
+    def __str__(self) -> str:
+        return f'{self.last_name} {self.first_name} {self.surname}, email: {self.email}'
 
     class Meta:
         verbose_name = 'клиент'

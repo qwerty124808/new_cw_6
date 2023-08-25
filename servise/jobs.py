@@ -16,11 +16,10 @@ def send_email(ms, cl, ml, tz):
         log = Log.objects.create(user=cl, mail=ms, last_try_date=datetime.now(tz), server_response='Ошибка', try_status=err)
         log.save()
 
-def test_job(aaa):
-    mails = MailSettings.objects.filter(mailing_status='s')
+def test_job(aaa=None):
+    mails = MailSettings.objects.all() #filter(mailing_status='s')
     tz = pytz.timezone('Europe/Moscow')
     now = datetime.now(tz)
-    import pdb; pdb.set_trace()
     for mail in mails:
         for client in mail.clients.all():
             ml = Log.objects.filter(user=client,  mail=mail)
@@ -29,7 +28,7 @@ def test_job(aaa):
                 last_mail = ml.order_by('last_try_date').first()
                 diff = (now - last_mail.last_try_date).days
                 print(diff)
-                if mail.mailing_periodicity == "d" and diff <= 1:
+                if mail.mailing_periodicity == "d" and diff >= 1:
                     print('test_2')
                     send_email(mail, client, ml, tz)
                 if mail.mailing_periodicity == "w" and diff >= 7:

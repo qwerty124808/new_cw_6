@@ -19,10 +19,13 @@
                         <p class="card-text">{{object|title}}</p>
                     </div>
                     <div class="btn-group">
-                        <a href="{% url 'servise:Mailupdate' object.pk %}" type="button"
-                            class="btn btn-sm btn-outline-secondary">update</a>
-                        <a href="{% url 'servise:Maildelete' object.pk %}" type="button"
-                            class="btn btn-sm btn-outline-secondary">Delete</a>
+                        {% if user.is_superuser %}
+                        <a href="{% url 'servise:Mailupdate' object.pk %}" type="button"class="btn btn-sm btn-outline-secondary">update</a>
+                        <a href="{% url 'servise:Maildelete' object.pk %}" type="button"class="btn btn-sm btn-outline-secondary">Delete</a>
+                        {% elif not user.is_staff %}
+                        <a href="{% url 'servise:Mailupdate' object.pk %}" type="button"class="btn btn-sm btn-outline-secondary">update</a>
+                        <a href="{% url 'servise:Maildelete' object.pk %}" type="button"class="btn btn-sm btn-outline-secondary">Delete</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

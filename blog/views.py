@@ -2,6 +2,7 @@ from django.shortcuts import render
 from blog.models import Blog
 from django.views.generic import ListView, DetailView
 
+
 class BlogListView(ListView):
     model = Blog
 

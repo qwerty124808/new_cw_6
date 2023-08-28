@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.decorators.cache import cache_page
 from servise.views import (HomeView, 
                            ClientCreateView, ClientListView, ClientUpdateViev, ClientDeleteView,
                             MailSettingsListView, MailSettingsCreateView, MailSettingsUpdateViev, MailSettingsDeleteView,
@@ -11,7 +12,7 @@ app_name = ServiseConfig.name
 
 urlpatterns = [
     path('aaa/', test_job),
-    path('', HomeView.as_view(), name='home'),
+    path('', cache_page(60)(HomeView.as_view()), name='home'),
     path('/clients/', ClientListView.as_view(), name='Clients'),
     path('/clientcreate/', ClientCreateView.as_view(), name='Clientcreate'),
     path('/clientupdate/<int:pk>/', ClientUpdateViev.as_view(), name='Clientupdate'),

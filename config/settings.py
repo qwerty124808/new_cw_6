@@ -160,13 +160,15 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/users/"
 LOGIN_URL = "/users/"
 
-CACHE_ENABLED = False
+CACHE_ENABLED = True
 if CACHE_ENABLED:
     CACHES = {
         "default": {
-            "BACKEND": "django.core.cache.backends.redis.RedisCache",
-            "LOCATION": os.getenv('CACHES_LOCATION'),
-            "TIMEOUT": 300 # Ручная регулировка времени жизни кеша в секундах, по умолчанию 300
+            "BACKEND": 'redis_cache.RedisCache',
+            "LOCATION": 'redis://192.168.0.22:6379',
+            "OPTIONS": {
+                    "PASSWORD": "my-password",
+                        },
         }
     }
 

@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import (ListView, DetailView, TemplateView, 
                                   CreateView, UpdateView, DeleteView)
 from django.urls import reverse_lazy, reverse
@@ -10,10 +10,22 @@ from django.db import transaction
 from django.http import Http404
 from servise.models import Client, MailSettings
 from servise.forms import ClientForm, MailSettingsForm
+from blog.models import Blog
+from users.models import User
+import random
 
 
 class HomeView(LoginRequiredMixin, TemplateView):
     template_name = "servise/home.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["object_list"] = Blog.objects.all()[0:3]
+        context["users"] = User.objects.all().count()
+        context["mailings"] = MailSettings.objects.all().count()
+        context["clients"] = Client.objects.all().count()
+        return context
+    
 
 
 
@@ -56,11 +68,29 @@ class ClientDeleteView(LoginRequiredMixin, DeleteView):
         return self.object
 
 
-class MailSettingsListView(LoginRequiredMixin, ListView):
+class MailSettingsListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = MailSettings
+    permission_required = 'servise.change_mailsettings'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["is_manager"] = self.request.user.groups.filter(name='manager').exists()
+        return context
+    
+
     def get_queryset(self, *args, **kwargs):
         queryset = MailSettings.objects.filter(user=self.request.user)
+        if self.request.user.groups.filter(name='manager').exists():
+            queryset = MailSettings.objects.all()
         return queryset
+
+
+@permission_required('servise.change_mailsettings')
+def ActivateMailSettings(request, pk):
+    mailsettings = MailSettings.objects.get(pk=pk)
+    mailsettings.is_active = False if mailsettings.is_active else True
+    mailsettings.save()
+    return redirect('servise:Mails')
 
 class MailSettingsCreateView(LoginRequiredMixin, CreateView):
     model = MailSettings

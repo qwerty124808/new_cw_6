@@ -1,7 +1,8 @@
 from django.urls import path
 from servise.views import (HomeView, 
                            ClientCreateView, ClientListView, ClientUpdateViev, ClientDeleteView,
-                            MailSettingsListView, MailSettingsCreateView, MailSettingsUpdateViev, MailSettingsDeleteView
+                            MailSettingsListView, MailSettingsCreateView, MailSettingsUpdateViev, MailSettingsDeleteView,
+                            ActivateMailSettings
 )
 from servise.jobs import test_job
 from servise.forms import MailSettingsForm
@@ -20,4 +21,5 @@ urlpatterns = [
     path('/mailcreate/', MailSettingsCreateView.as_view(), name='Mailcreate'),
     path('/mailupdate/<int:pk>/', MailSettingsUpdateViev.as_view(), name='Mailupdate'),
     path('/maildelete/<int:pk>/', MailSettingsDeleteView.as_view(), name='Maildelete'),
+    path("/mailblock/<int:pk>/", ActivateMailSettings, name="block")
 ]

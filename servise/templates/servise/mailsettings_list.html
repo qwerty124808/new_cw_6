@@ -9,7 +9,9 @@
 <div class="container">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         <div class="col-12 mb-5">
+            {% if not is_manager %}
             <a class="btn btn-outline-primary" href="{% url 'servise:Mailcreate' %}">Добавить Рассылку</a>
+            {% endif %}
         </div>
         {% for object in object_list %}
         <div class="col">
@@ -19,12 +21,14 @@
                         <p class="card-text">{{object|title}}</p>
                     </div>
                     <div class="btn-group">
-                        {% if user.is_superuser %}
+                        {% if perms.servise.change_mailsettings and not is_manager %}
                         <a href="{% url 'servise:Mailupdate' object.pk %}" type="button"class="btn btn-sm btn-outline-secondary">update</a>
+                        {% endif %}
+                        {% if perms.servise.delete_mailsettings %}
                         <a href="{% url 'servise:Maildelete' object.pk %}" type="button"class="btn btn-sm btn-outline-secondary">Delete</a>
-                        {% elif not user.is_staff %}
-                        <a href="{% url 'servise:Mailupdate' object.pk %}" type="button"class="btn btn-sm btn-outline-secondary">update</a>
-                        <a href="{% url 'servise:Maildelete' object.pk %}" type="button"class="btn btn-sm btn-outline-secondary">Delete</a>
+                        {% endif %}
+                        {% if is_manager %}
+                        <a href="{% url 'servise:block' object.pk %}" type="button"class="btn btn-sm btn-outline-secondary">заблокировать</a>
                         {% endif %}
                     </div>
                 </div>

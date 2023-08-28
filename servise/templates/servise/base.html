@@ -37,10 +37,13 @@
                         <ul class="list-unstyled">
                             {% if user.is_authenticated %}
                                 <li><a href="{% url 'servise:home' %}" class="text-white">Главная</a></li>
+                                <li><a href="{% url 'blog:blogs' %}" class="text-white">Блоги</a></li>
                                 <li><a href="{% url 'servise:Clients' %}" class="text-white">Менеджер клиентов</a></li>
                                 <li><a href="{% url 'servise:Mails' %}" class="text-white">Менеджер рассылок</a></li>
-                                <li><a href="" class="text-white">Отчёт о рассылках </a></li>
                                 <li><a href="{% url 'users:logout' %}" class="text-white">Выйти</a></li>
+                                {% if perms.users.change_user %}
+                                    <li><a href="{% url 'users:userslist' %}" class="text-white">Пользователи</a></li>
+                                {% endif %}
                             {% else %}
                             <li><a href="{% url 'users:login' %}" class="text-white">Войти</a></li>
                             <li><a href="{% url 'users:regyster' %}" class="text-white">Регистрация</a></li>

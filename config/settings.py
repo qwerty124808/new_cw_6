@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     "users",
+    "blog",
     "servise",
 ]
 
@@ -91,7 +92,7 @@ DATABASES = {
         'NAME': 'cw_6',
         'USER': 'postgres',
         'PASSWORD': '123456',
-        'HOST': '192.168.56.101',
+        'HOST': '192.168.0.22',
         'PORT': 49153,
     }
 }

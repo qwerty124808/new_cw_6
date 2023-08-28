@@ -17,7 +17,7 @@ def send_email(ms, cl, ml, tz):
         log.save()
 
 def test_job(aaa=None):
-    mails = MailSettings.objects.all() #filter(mailing_status='s')
+    mails = MailSettings.objects.filter(mailing_status='s')
     tz = pytz.timezone('Europe/Moscow')
     now = datetime.now(tz)
     for mail in mails:

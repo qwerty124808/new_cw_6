@@ -43,6 +43,7 @@ class MailSettings(models.Model):
     mailing_is_active = models.BooleanField(default=True, verbose_name='Рассылка активна')
     clients = models.ManyToManyField(Client, verbose_name='клиенты')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_active = models.BooleanField(default=True, verbose_name='состояние')
     @property
     def get_clients_by_user(self):
         return Client.objects.filter(user=self.user)

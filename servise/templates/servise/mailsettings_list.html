@@ -27,8 +27,10 @@
                         {% if perms.servise.delete_mailsettings %}
                         <a href="{% url 'servise:Maildelete' object.pk %}" type="button"class="btn btn-sm btn-outline-secondary">Delete</a>
                         {% endif %}
-                        {% if is_manager %}
+                        {% if is_manager and object.is_active %}
                         <a href="{% url 'servise:block' object.pk %}" type="button"class="btn btn-sm btn-outline-secondary">заблокировать</a>
+                        {% else %}
+                        <a href="{% url 'servise:block' object.pk %}" type="button"class="btn btn-sm btn-outline-secondary">разблокировать</a>
                         {% endif %}
                     </div>
                 </div>
